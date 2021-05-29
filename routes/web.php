@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
   return view('/pages/home');
 });
+
+Route::get('/photos/new', function () {
+  return view('/pages/photo_form');
+});

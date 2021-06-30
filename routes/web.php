@@ -15,5 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PhotoController::class, 'index']);
+
 Route::get('/photos/new', [PhotoController::class, 'create']);
+
 Route::post('/photos', [PhotoController::class, 'store']);
+
+Route::get('/photos/edit/{id}', [PhotoController::class, 'edit']);
+
+Route::put('/photos/{id}', [PhotoController::class, 'update']);

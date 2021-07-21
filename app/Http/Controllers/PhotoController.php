@@ -20,6 +20,12 @@ class PhotoController extends Controller
     return view('/pages/home', ['photos' => $photos]);
   }
 
+  public function showAll()
+  {
+    $photos = Photo::all();
+    return view('/pages/photo_list', ['photos' => $photos]);
+  }
+
   /**
    * Show the form for creating a new resource.
    *
@@ -90,7 +96,7 @@ class PhotoController extends Controller
 
     $photo->update();
 
-    return redirect('/');
+    return redirect('/photos');
   }
 
   /**

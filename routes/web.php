@@ -25,3 +25,5 @@ Route::post('/photos', [PhotoController::class, 'store']);
 Route::get('/photos/edit/{id}', [PhotoController::class, 'edit']);
 
 Route::put('/photos/edit/{id}', [PhotoController::class, 'update']);
+
+Route::delete('/photo/delete/{id}', [PhotoController::class, 'destroy']);

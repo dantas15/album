@@ -1,3 +1,8 @@
+/*
+********************************************************************************
+ Modal
+********************************************************************************
+*/
 //variavel que recebe o elemento html(modal)
 var confirmationModal = document.getElementById("confirmationModal");
 
@@ -12,3 +17,19 @@ confirmationModal.addEventListener("show.bs.modal", function (event) {
   //alterando a rota que o formulário envia os dados
   form.action = "/photo/delete/" + button.getAttribute("data-photo-id");
 });
+
+/*
+********************************************************************************
+Carregar imagem
+********************************************************************************
+*/
+function loadFile(event) {
+  //variável que recebe o elemento img
+  var imgPrev = document.getElementById("imgPrev");
+
+  //link para a imagem
+  var url = URL.createObjectURL(event.target.files[0]);
+
+  //altera a propriedade src para o link da imagem
+  imgPrev.src = url;
+}

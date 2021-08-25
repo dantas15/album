@@ -35,7 +35,8 @@
                   <img
                     width="200"
                     class="img-thumbnail"
-                    src="https://www.osmais.com/wallpapers/201209/dia-de-chuva-wallpaper.jpg"
+                    style="object-fit:cover; height:106px"
+                    src="{{url("storage/photos/$photo->photo_url")}}"
                     alt=""
                   />
                 </td>

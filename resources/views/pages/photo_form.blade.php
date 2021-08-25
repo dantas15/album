@@ -1,4 +1,6 @@
-@extends('/layouts/main') @section('content') @include('/partials/navbar')
+@extends('/layouts/main')
+@section('content')
+@include('/partials/navbar')
 <div class="container">
   <!-- Coluna Btn voltar -->
   <div class="row">
@@ -19,7 +21,7 @@
             <form action="/photos/edit/{{ $photo->id }}" method="POST">
             @method('PUT')
           @else
-            <form action="/photos" method="POST">
+            <form action="/photos" method="POST" enctype="multipart/form-data">
           @endif
           @csrf
           <div class="row">
@@ -36,13 +38,14 @@
                     h-100
                     mt-4
                   ">
-                  <i class="far fa-image"></i> <br />
-                  <small> </small>
+                  {{-- <i class="far fa-image"></i> <br /> --}}
+                  <img id="imgPrev" height="340"
+                  class="img-fluid w-100"
+                  style="object-fit:cover;" src="{{asset("img/img_padrao.png")}}" alt="" />
                 </div>
                 <div class="form-group mt-2">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="customFile" />
-                    <label class="custom-file-label" for="customFile" required>Nenhum arquivo selecionado</label>
+                    <input id="photo" name="photo" type="file" class="custom-file-input" onchange="loadFile(event)" />
                   </div>
                 </div>
               </div>
@@ -96,4 +99,7 @@
     </div><!-- fim da coluna card-form -->
   </div><!-- fim da row -->
 </div><!-- fim da container-->
+
+<script src="{{asset('js/script.js')}}"></script>
+
 @endsection

@@ -122,7 +122,13 @@ class PhotoController extends Controller
    */
   public function destroy($id)
   {
-    Photo::findOrFail($id)->delete();
+    $photo = Photo::findOrFail($id);
+
+    if (file_exists(public_path("/storage/photos/$photo->photo_url"))) {
+      unlink(public_path("/storage/photos/$photo->photo_url"));
+    }
+
+    $photo->delete();
 
     return redirect('/photos');
   }

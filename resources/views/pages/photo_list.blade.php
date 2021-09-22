@@ -28,6 +28,13 @@
               </tr>
             </thead>
             <tbody>
+              @if($photos->isEmpty())
+                <tr>
+                  <td colspan="5" class="p-5">
+                    <h1 class="display-6 text-secondary"><i class="far fa-sad-tear"></i>Nenhuma Foto Cadastrada</h1>
+                  </td>
+                </tr>
+              @endif
               @foreach ($photos as $photo)
               <tr class="align-middle">
                 <td>{{$photo->id}}</td>

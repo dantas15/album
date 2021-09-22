@@ -22,6 +22,11 @@
 
 <section class="container mt-4">
   <div class="row">
+    @if($photos->isEmpty())
+      <div class="col-12 text-center p-5">
+        <h1 class="display-4 text-secondary"><i class="far fa-sad-tear"></i>Nenhuma Foto Cadastrada</h1>
+      </div>
+    @endif
     @foreach ($photos as $photo)
       <div class="col-12 col-md-6 col-lg-4 mb-4">
         <div class="card shadow-sm h-100">

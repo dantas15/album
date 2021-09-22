@@ -50,22 +50,16 @@ class PhotoController extends Controller
     $photo->description = $request->description;
 
     if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
-      $nomeFoto = sha1(uniqid(date('HisYmd')));
+      $upload = $this->uploadPhoto($request->photo);
 
-      $extensao = $request->photo->extension();
+      $directoryArray = explode(DIRECTORY_SEPARATOR, $upload);
 
-      $nomeArquivo = "${nomeFoto}.${extensao}";
-
-      $upload = $request->photo->move(public_path('/storage/photos'), $nomeArquivo);
-
-      $photo->photo_url = $nomeArquivo;
+      $photo->photo_url = $directoryArray[count($directoryArray) - 1];
     }
 
-    if ($upload) {
+    if (true) {
       $photo->save();
     }
-
-    $photo->save();
 
     return redirect('/');
   }
@@ -124,12 +118,31 @@ class PhotoController extends Controller
   {
     $photo = Photo::findOrFail($id);
 
-    if (file_exists(public_path("/storage/photos/$photo->photo_url"))) {
-      unlink(public_path("/storage/photos/$photo->photo_url"));
-    }
+    $this->deletePhoto($photo->photo_url);
 
     $photo->delete();
 
     return redirect('/photos');
+  }
+
+  public function uploadPhoto($photo)
+  {
+
+    $nomeFoto = sha1(uniqid(date('HisYmd')));
+
+    $extensao = $photo->extension();
+
+    $nomeArquivo = "{$nomeFoto}.{$extensao}";
+
+    $upload = $photo->move(public_path(DIRECTORY_SEPARATOR . '/storage/photos'), $nomeArquivo);
+
+    return $upload;
+  }
+
+  public function deltePhoto($filename)
+  {
+    if (file_exists(public_path("storage" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename))) {
+      unlink(public_path("storage" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename));
+    }
   }
 }

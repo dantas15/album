@@ -18,12 +18,14 @@
         </div>
         <div class="card-body p-4">
           @if (isset($photo))
-            <form action="/photos/edit/{{ $photo->id }}" method="POST">
+            <form action="/photos/edit/{{ $photo->id }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
           @else
             <form action="/photos" method="POST" enctype="multipart/form-data">
           @endif
+
           @csrf
+
           <div class="row">
             <!-- Coluna da foto -->
             <div class="col-lg-6">
@@ -41,11 +43,15 @@
                   {{-- <i class="far fa-image"></i> <br /> --}}
                   <img id="imgPrev" height="340"
                   class="img-fluid w-100"
-                  style="object-fit:cover;" src="{{asset("img/img_padrao.png")}}" alt="" />
+                  style="object-fit:cover;" src="{{isset($photo->photo_url) ? url("storage/photos/$photo->photo_url") : asset("img/img_padrao.png") }}" alt="" />
                 </div>
                 <div class="form-group mt-2">
                   <div class="custom-file">
-                    <input id="photo" name="photo" type="file" class="custom-file-input" onchange="loadFile(event)" />
+                    <input id="photo" name="photo" type="file"
+                      class="custom-file-input"
+                      onchange="loadFile(event)"
+                      @empty($photo) required @endempty
+                    />
                   </div>
                 </div>
               </div>

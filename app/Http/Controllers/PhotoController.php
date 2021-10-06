@@ -96,12 +96,27 @@ class PhotoController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $photo = Photo::findOrFail($request->id);
+    $photo = Photo::findOrFail($id);
 
     $photo->title = $request->title;
     $photo->date = $request->date;
     $photo->description = $request->description;
-    $photo->photo_url = "teste";
+
+    if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+
+      $this->deletePhoto($photo->photo_url);
+
+      $upload = $this->uploadPhoto($request->photo);
+
+      $directoryArray = explode(DIRECTORY_SEPARATOR, $upload);
+
+      $photo->photo_url = end($directoryArray);
+
+      if ($directoryArray) {
+        $photo->update();
+      }
+      return redirect('/photos');
+    }
 
     $photo->update();
 
@@ -139,7 +154,7 @@ class PhotoController extends Controller
     return $upload;
   }
 
-  public function deltePhoto($filename)
+  public function deletePhoto($filename)
   {
     if (file_exists(public_path("storage" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename))) {
       unlink(public_path("storage" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename));

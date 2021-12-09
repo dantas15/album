@@ -15,7 +15,7 @@ confirmationModal.addEventListener("show.bs.modal", function (event) {
   var form = document.getElementById("formDeletePhoto");
 
   //alterando a rota que o formulário envia os dados
-  form.action = "/photo/delete/" + button.getAttribute("data-photo-id");
+  form.action = "/photos/" + button.getAttribute("data-photo-id");
 });
 
 /*

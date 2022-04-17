@@ -3,66 +3,59 @@
 @section('content')
 @include('/partials/navbar')
 <div class="container">
+
+  <!-- Coluna Btn voltar -->
   <div class="row">
-    <!-- Coluna Btn voltar -->
     <div class="col-12 my-4">
       <a href="/"><i class="fas fa-arrow-left me-2"></i>Voltar</a>
     </div>
-    <!-- Coluna Card da Tabela -->
-    <div class="col-12 mb-4">
+
+    <!-- Coluna Tabela -->
+    <div class="col-12 mb-5">
       <div class="card shadow bg-white rounded">
         <div class="card-header gradient text-white">
           <h2 class="card-title p-3">
-            <i class="fas fa-image"></i> Fotos Cadastradas
+            <i class="fas fa-image"></i>
+            Fotos cadastradas
           </h2>
         </div>
         <div class="card-body p-4">
           <table class="table table-hover text-center">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Foto</th>
-                <th>Titulo</th>
-                <th>Data</th>
-                <th>Ações</th>
+                <th scope="col">#</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Data</th>
+                <th scope="col">Ações</th>
               </tr>
             </thead>
             <tbody>
               @if($photos->isEmpty())
-                <tr>
-                  <td colspan="5" class="p-5">
-                    <h1 class="display-6 text-secondary"><i class="far fa-sad-tear"></i>Nenhuma Foto Cadastrada</h1>
-                  </td>
-                </tr>
+              <tr>
+                <td colspan="5" class="p-5">
+                  <h1 class="display-6 text-secondary">
+                    <i class="far fa-frown"></i>
+                    Nenhuma Foto Cadastrada
+                  </h1>
+                </td>
+              </tr>
               @endif
               @foreach ($photos as $photo)
               <tr class="align-middle">
                 <td>{{$photo->id}}</td>
                 <td>
-                  <img
-                    width="200"
-                    class="img-thumbnail"
-                    style="object-fit:cover; height:106px"
-                    src="{{url("storage/photos/$photo->photo_url")}}"
-                    alt=""
-                  />
+                  <img width="200" class="img-thumbnail" style="object-fit: cover; height:116px" src="{{url("/storage/photos/$photo->photo_url")}}" alt="">
                 </td>
                 <td>{{$photo->title}}</td>
                 <td>{{$photo->date}}</td>
                 <td>
-                  <a
-                    href="/photos/edit/{{$photo->id}}"
-                    class="btn btn-secondary"
-                  >
+                  <a href="/photos/edit/{{$photo->id}}" class="btn btn-secondary">
                     <i class="fas fa-edit"></i>
                   </a>
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#confirmationModal"
-                    data-photo-id="{{$photo->id}}"
-                  >
+
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-photo-id="{{$photo->id}}">
                     <i class="fas fa-trash-alt"></i>
                   </button>
                 </td>
@@ -72,46 +65,36 @@
           </table>
         </div>
         <!--fim do card-body -->
-      </div>
-      <!--fim do card -->
-    </div>
-    <!--fim da coluna -->
-  </div>
-  <!-- fim da row -->
-</div>
-<!-- fim do container --><!-- Modal -->
-<div
-  class="modal fade"
-  id="confirmationModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+      </div><!--fim do card -->
+    </div><!--fim da coluna -->
+  </div> <!--fim da row -->
+</div><!-- fim do container -->
+
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Atenção!</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">Deseja realmente excluir essa foto?</div>
+      <div class="modal-body">
+        Deseja realmente excluir essa foto?
+      </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Cancelar
-        </button>
-        <form action="/photo" method="POST" id="formDeletePhoto">
-          @method('DELETE')
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+
+        <form action="/photos/" method="POST" id="formDeletePhoto">
+          @method('delete')
           @csrf
-          <button class="btn btn-danger" type="submit">Sim, excluir</button>
+          <button class="btn btn-danger" type="submit">
+            <i class="fas fa-trash-alt"></i> Sim, Excluir
+          </button>
         </form>
       </div>
     </div>
   </div>
 </div>
 
-<script src="{{asset('js/script.js')}}"></script>
+<script src="{{asset('/js/script.js')}}"></script>
 @endsection

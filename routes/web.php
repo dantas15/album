@@ -15,15 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PhotoController::class, 'index']);
+Route::get('/dashboard', [PhotoController::class, 'index'])->name('dashboard');
 
-Route::get('/photos', [PhotoController::class, 'showAll']);
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/photos/new', [PhotoController::class, 'create']);
+  Route::get('/photos', [PhotoController::class, 'showAll']);
 
-Route::post('/photos', [PhotoController::class, 'store']);
+  Route::get('/photos/new', [PhotoController::class, 'create']);
 
-Route::get('/photos/edit/{id}', [PhotoController::class, 'edit']);
+  Route::get('/photos/edit/{id}', [PhotoController::class, 'edit']);
 
-Route::put('/photos/edit/{id}', [PhotoController::class, 'update']);
+  Route::post('/photos', [PhotoController::class, 'store']);
 
-Route::delete('/photo/delete/{id}', [PhotoController::class, 'destroy']);
+  Route::put('/photos/{id}', [PhotoController::class, 'update']);
+
+  Route::delete('/photos/{id}', [PhotoController::class, 'destroy']);
+});
